@@ -74,7 +74,7 @@ Ghost *GHOST1 = new Ghost(CYAN, GHOST_ART);
 Ghost *GHOST2 = new Ghost(PINK, GHOST_ART);
 
 int main(void) {
-  std::cout << buildArt({PAC, BALLS, GHOST0, GHOST1, GHOST2}) << std::endl;
+  std::cout << buildArt({PAC, BALLS, GHOST0, GHOST1, GHOST2});
   cleanUp();
   return 0;
 }
