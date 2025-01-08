@@ -98,6 +98,7 @@ std::string buildArt(std::vector<Art *> arts) {
     for (const auto &artStr : artStrs) {
       out += artStr[i];
     }
+    out += NC;
     out += "\n";
   }
   return out;

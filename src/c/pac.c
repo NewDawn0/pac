@@ -35,6 +35,7 @@ int main(void) {
     fputs(ghost1[i], stdout);
     fputs(ghost2[i], stdout);
     fputs("\n", stdout);
+    fputs(NC, stdout);
   }
   fflush(stdout);
   return 0;
