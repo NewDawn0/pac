@@ -10,16 +10,33 @@ start:
 	call printTest
 	call exit
 
-printTest:
-	lea  rdi, [cols.yellow]
-	lea  rsi, [pac]
-	mov  rdx, 0
-	call printLn
+forLoop:
+	mov rcx, rdi
 
-	lea  rdi, [cols.red]
-	lea  rsi, [pac]
-	mov  rdx, 1
-	call printLn
+.loop:
+	cmp  rcx, 0
+	jz   .done
+	dec  rcx
+	mov  rdi, rcx
+	call println
+	jmp  .loop
+
+.done:
+	ret
+
+printTest:
+	mov  rdi, 0
+	call println
+	mov  rdi, 1
+	call println
+	mov  rdi, 2
+	call println
+	mov  rdi, 3
+	call println
+	mov  rdi, 4
+	call println
+	mov  rdi, 5
+	call println
 	ret
 
 exit:
@@ -39,7 +56,8 @@ print:
 	syscall
 	ret
 
-printLn:
+printc:
+	;    print colour
 	;    rdi, rsi, rdx
 	push rdx
 	push rsi
@@ -57,6 +75,49 @@ printLn:
 	call strlen
 	mov  rsi, rax
 	call print
+	ret
+
+println:
+	mov  r8, rdi
+	;    Print full line
+	lea  rdi, [cols.yellow]
+	lea  rsi, [pac]
+	mov  rdx, r8
+	push r8
+	call printc
+
+	lea  rdi, [cols.white]
+	lea  rsi, [balls]
+	pop  r8
+	mov  rdx, r8
+	push r8
+	call printc
+
+	lea  rdi, [cols.red]
+	lea  rsi, [ghost]
+	pop  r8
+	mov  rdx, r8
+	push r8
+	call printc
+
+	lea  rdi, [cols.blue]
+	lea  rsi, [ghost]
+	pop  r8
+	mov  rdx, r8
+	push r8
+	call printc
+
+	lea  rdi, [cols.pink]
+	lea  rsi, [ghost]
+	pop  r8
+	mov  rdx, r8
+	push r8
+	call printc
+
+	lea  rdi, [newline]
+	mov  rsi, newline.len
+	call print
+	pop  r8
 	ret
 
 strlen:
@@ -107,12 +168,12 @@ getLn:
 section .data
 
 pac:
-	db "   ▄███████▄  ", 10, 0
-	db " ▄█████████▀▀ ", 10, 0
-	db " ███████▀     ", 10, 0
-	db " ███████▄     ", 10, 0
-	db " ▀█████████▄▄ ", 10, 0
-	db "   ▀███████▀  ", 10, 0
+	db "   ▄███████▄  ", 0
+	db " ▄█████████▀▀ ", 0
+	db " ███████▀     ", 0
+	db " ███████▄     ", 0
+	db " ▀█████████▄▄ ", 0
+	db "   ▀███████▀  ", 0
 
 balls:
 	db "            ", 0
@@ -123,12 +184,16 @@ balls:
 	db "            ", 0
 
 ghost:
-	db "", 0
-	db "", 0
-	db "", 0
-	db "", 0
-	db "", 0
-	db "", 0
+	db "   ▄██████▄   ", 0
+	db " ▄█▀████▀███▄ ", 0
+	db " █▄▄███▄▄████ ", 0
+	db " ████████████ ", 0
+	db " ██▀██▀▀██▀██ ", 0
+	db " ▀   ▀  ▀   ▀ ", 0
+
+newline:
+	db   10
+	.len equ $ - newline
 
 cols:
 	.red    db `\x1b[31m`, 0
