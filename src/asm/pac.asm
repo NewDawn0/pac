@@ -57,9 +57,7 @@ printc:
 	push rdx
 	push rsi
 	;    Print colour
-	call strlen
-	mov  rsi, rax
-	call print
+	call printCol
 	;    Print string
 	pop  rsi
 	mov  rdi, rsi
@@ -70,6 +68,81 @@ printc:
 	call strlen
 	mov  rsi, rax
 	call print
+	ret
+
+printCol:
+	call strlen
+	mov  rsi, rax
+	call print
+	ret
+
+printg:
+	;    rdi (col), rsi, (ln)
+	;    print col
+	mov  r10, rdi
+	push r10
+	push rsi
+	call printCol
+	;    print ghost
+	pop  rsi
+	cmp  rsi, 1
+	je   .printEye
+	cmp  rsi, 2
+	je   .printEye
+	jmp  .printNorm
+
+.printEye:
+	lea  rdi, [ghost]
+	call getLn
+	lea  rdi, [rax]; Line in rdi
+	;    Print part 1
+	mov  rsi, 4
+	push rdi
+	call print
+	;    Change col + print part 2
+	lea  rdi, [cols.white]
+	call printCol
+	pop  rdi
+	lea  rdi, [rdi+4]
+	mov  rsi, 9
+	push rdi
+	call print
+	;    Change col + print part 3
+	lea  rdi, [r10]
+	call printCol
+	pop  rdi
+	lea  rdi, [rdi+9]
+	mov  rsi, 6
+	push rdi
+	call print
+	;    Change col + print part 4
+	lea  rdi, [cols.white]
+	call printCol
+	pop  rdi
+	lea  rdi, [rdi+6]
+	mov  rsi, 9
+	push rdi
+	call print
+	;    Change col + print part 5
+	lea  rdi, [r10]
+	call printCol
+	pop  rdi
+	lea  rdi, [rdi+9]
+	call strlen
+	mov  rsi, rax
+	call print
+	;    End
+	pop  r10
+	ret
+
+.printNorm:
+	lea  rdi, [ghost]
+	call getLn
+	lea  rdi, [rax]
+	call strlen
+	mov  rsi, rax
+	call print
+	pop  r10
 	ret
 
 println:
@@ -89,25 +162,22 @@ println:
 	call printc
 
 	lea  rdi, [cols.red]
-	lea  rsi, [ghost]
 	pop  r8
-	mov  rdx, r8
+	mov  rsi, r8
 	push r8
-	call printc
+	call printg
 
 	lea  rdi, [cols.blue]
-	lea  rsi, [ghost]
 	pop  r8
-	mov  rdx, r8
+	mov  rsi, r8
 	push r8
-	call printc
+	call printg
 
 	lea  rdi, [cols.pink]
-	lea  rsi, [ghost]
 	pop  r8
-	mov  rdx, r8
+	mov  rsi, r8
 	push r8
-	call printc
+	call printg
 
 	lea  rdi, [newline]
 	mov  rsi, newline.len
