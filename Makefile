@@ -18,6 +18,10 @@ build-rs-macro:
 build-zig:
 	zig build-exe $(ZIGFLAGS) ./src/zig/pac.zig
 
+build-asm:
+	nasm -fmacho64 -o pac.o ./src/asm/pac.asm
+	ld -static -o pac pac.o
+
 build-all:
 	gcc $(CFLAGS) -o pac-c ./src/c/pac.c
 	g++ $(CPPFLAGS) -o pac-cpp ./src/cpp/pac.cpp
