@@ -1,42 +1,38 @@
 section .text
 global  start
+
 default rel
+
+	; NOTE: When building for linux
+	; -> Change ASMFLAGS to -felf64 in Makefile
+	; -> Replace 0x02000001 and 0x02000001 with 1 and 4
 
 	; x86-64 Calling conv
 	; Input: rdi, rsi, rdx, rcx, r8, r9
 	; Output: rax
 
 start:
-	call printTest
+	mov  rdi, 6
+	call forLoop
 	call exit
 
 forLoop:
 	mov rcx, rdi
+	xor rbx, rbx
 
 .loop:
-	cmp  rcx, 0
+	cmp  rcx, rbx
 	jz   .done
-	dec  rcx
-	mov  rdi, rcx
+	push rcx
+	push rbx
+	mov  rdi, rbx
 	call println
+	pop  rbx
+	pop  rcx
+	inc  rbx
 	jmp  .loop
 
 .done:
-	ret
-
-printTest:
-	mov  rdi, 0
-	call println
-	mov  rdi, 1
-	call println
-	mov  rdi, 2
-	call println
-	mov  rdi, 3
-	call println
-	mov  rdi, 4
-	call println
-	mov  rdi, 5
-	call println
 	ret
 
 exit:
@@ -57,11 +53,10 @@ print:
 	ret
 
 printc:
-	;    print colour
 	;    rdi, rsi, rdx
 	push rdx
 	push rsi
-	;    Print Color
+	;    Print colour
 	call strlen
 	mov  rsi, rax
 	call print
