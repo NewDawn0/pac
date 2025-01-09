@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-TESTS=( "pac-c" "pac-cpp" "pac-rs" "pac-rs2" "pac-zig" )
+TESTS=( "pac-c" "pac-cpp" "pac-rs" "pac-rs2" "pac-zig" "pac-asm")
 ITERATIONS=1000
 
 for test in "${TESTS[@]}"; do
