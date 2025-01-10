@@ -3,7 +3,7 @@
 
   inputs = { nixpkgs.url = "github:nixos/nixpkgs"; };
 
-  outputs = { nixpkgs, ... }:
+  outputs = { self, nixpkgs, ... }:
     let
       mkPkgs = system: nixpkgs.legacyPackages.${system};
 
@@ -44,12 +44,8 @@
         let inherit (getPkgs (mkPkgs sys)) all linux default;
         in all // linux // { inherit default; };
     in {
-      overlays = (final: prev: {
-        default = if builtins.match "*darwin" prev.system then
-          macPkgs prev.system
-        else
-          linuxPkgs prev.system;
-      });
+      overlays.default =
+        (final: prev: { pac = self.packages.${prev.system}.default; });
       packages = {
         x86_64-darwin = macPkgs "x86_64-darwin";
         aarch64-darwin = macPkgs "aarch64-darwin";
