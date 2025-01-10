@@ -16,12 +16,15 @@ helpMsg() {
   builder.sh <rule(s)>
 
 Available rules:
-- c
-- cpp
-- zig
-- asm
-- rust-v1
-- rust-v2
+- c           => C version
+- cpp         => C++ version
+- zig         => Zig version
+- asm         => Assembly version
+- rust-v1     => Rust 1st version
+- rust-v2     => Rust 2nd version with macros
+- measure     => Get performance
+- clean       => Remove built files
+- -h | --help => Print this menu
 EOF
 }
 
