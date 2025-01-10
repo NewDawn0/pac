@@ -88,7 +88,7 @@ Feel free to upload your own version of the Pac-Man script in any language, and 
 ### Constraints
 
 - The version must be in a single file and must compile to the pac executable
-- The version must at least support macOS & Linux
+- The version must at least support either macOS or Linux
 - All the figures objects (eg. Pac-Man, Ghosts, ...) must be stored separately and cannot be initially stored with colour formatting
 
 ### Adding your version
