@@ -44,12 +44,12 @@
         let inherit (getPkgs (mkPkgs sys)) all linux default;
         in all // linux // { inherit default; };
     in {
-      overlays = {
-        x86_64-darwin = (final: prev: { default = macPkgs "x86_64-darwin"; });
-        aarch64-darwin = (final: prev: { default = macPkgs "aarch64-darwin"; });
-        x86_64-linux = (final: prev: { default = macPkgs "x86_64-linux"; });
-        aarch64-linux = (final: prev: { default = macPkgs "aarch64-linux"; });
-      };
+      overlays = (final: prev: {
+        default = if builtins.match "*darwin" prev.system then
+          macPkgs prev.system
+        else
+          linuxPkgs prev.system;
+      });
       packages = {
         x86_64-darwin = macPkgs "x86_64-darwin";
         aarch64-darwin = macPkgs "aarch64-darwin";
