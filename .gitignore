@@ -1,11 +1,2 @@
 pac
 pac.o
-
-# Test files
-pac-c
-pac-cpp
-pac-rs
-pac-rs2
-pac-zig
-pac-zig.o
-pac-asm
