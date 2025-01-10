@@ -82,18 +82,14 @@ build-rust() {
 build-asm() {
     checkBin "nasm"
     echo "Building Assembly version as $OUTFILE"
-    if [[ "$OS" == "Linux" ]]; then
-        patch ./src/asm/pac.asm < ./patches/asm-linux.patch
-        ASMFLAGS="-felf64"
+    if [ "$OS" != "Darwin" ]; then
+      echo "This Assembly version is only available on macOS"
+      exit 1
     fi
     nasm $ASMFLAGS -o "${OUTFILE}.o" ./src/asm/pac.asm
     ld $LDFLAGS -o "$OUTFILE" "${OUTFILE}.o"
     rm "${OUTFILE}.o"
     strip "$OUTFILE"
-    if [[ "$OS" == "Linux" ]]; then
-        patch ./src/asm/pac.asm < ./patches/asm-mac.patch
-        ASMFLAGS="-fmacho64"
-    fi
 }
 
 checkArg() {
