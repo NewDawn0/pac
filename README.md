@@ -8,8 +8,7 @@ Fast pac man art in the terminal
 
 * [Description](#description)
 * [Features](#features)
-* [Supported versions](#supported-versions)
-* [Building the Project](#building-the-project)
+* [Building a version](#building-a-version)
 * [Measuring Performance](#measuring-performance)
 * [Contributing](#contributing)
     * [Constraints](#constraints)
@@ -25,32 +24,10 @@ This project generates an ASCII art representation of Pac-Man using different pr
 
 - ASCII art representation of Pac-Man
 - Colours and Unicode characters used to enhance the visual output
-- Multiple versions/implementations in different languages:
-  - C
-  - C++
-  - Zig
-  - Rust
-  - Assembly (Nasm)
+- Multiple versions/implementations in different languages
 - Measures performance across languages and implementations
 
-## Supported versions
-
-To build a specific version of the project, use the following command:
-
-```bash
-./build.sh <version>
-```
-
-Where `<version>` can be any of the following:
-
-- `c`: The first and initial version of the project
-- `cpp`: The C++ version
-- `zig`: Zig version utilizing comptime
-- `rust-v1`: First Rust version
-- `rust-v2`: Second Rust version utilizing macros at compile time
-- `asm`: The assembly (nasm flavour) version
-
-## Building the Project
+## Building a version
 
 To get started, clone the repository and navigate to the project director:
 
@@ -59,27 +36,35 @@ git clone https://github.com/NewDawn0/pac.git
 cd pac
 ```
 
-Next rune the build script to compile a version of the project
+And then build the default version using the following command:
 
 ```bash
-./build.sh <version>
+nix build .
 ```
 
-This will compile the specific implementation you chose and generate the pac executable
+Or to build a specific version, run the command:
+
+```bash
+nix build .#<version>
+```
+
+To view all available versions/implementations for your system run the following:
+
+```bash
+nix flake show
+```
+
+nix build
 
 ## Measuring Performance
 
-To get the performance of an implementation build and measure it using:
+To get the performance of an implementation, build it and then run the follwing
 
 ```bash
-./build.sh <version> measure
+./measure.sh measure
 ```
 
-This will:
-
-- Build the executable
-- Run the version for 1000 iterations
-- Show the elapsed time
+This will run the version for 1000 iterations and show the elapsed time
 
 ## Contributing
 
@@ -88,7 +73,7 @@ Feel free to upload your own version of the Pac-Man script in any language, and 
 ### Constraints
 
 - The version must be in a single file and must compile to the pac executable
-- The version must at least support either macOS or Linux
+- The version must support at least macOS or Linux
 - All the figures objects (eg. Pac-Man, Ghosts, ...) must be stored separately and cannot be initially stored with colour formatting
 
 ### Adding your version
@@ -96,7 +81,8 @@ Feel free to upload your own version of the Pac-Man script in any language, and 
 1. Fork the repo
 2. Add your implementation in a new language or improve an existing one
 3. Add your source in `./src/<your-language>/pac-<your-impl>` where the file must be just called `pac` if there isn't a preexisting file with that name
-4. Add your build function to `build.sh`
-5. Create a PR
+4. Add your build derivation to `./build.nix`
+5. Add your derivation to any of `all`, `mac`, `linux` in `./build.nix` depending whether it builds for both macOS and linux or just one system
+6. Create a PR
 
 I welcome contributions and look forward to seeing how fast you can make your version!
