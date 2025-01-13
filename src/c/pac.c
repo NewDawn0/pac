@@ -1,70 +1,103 @@
+#include <stddef.h>
 #include <stdio.h>
 
-#define YELLOW "\x1b[0;33m"
-#define RED "\x1b[0;31m"
-#define CYAN "\x1b[0;36m"
-#define PINK "\x1b[0;35m"
-#define WHITE "\x1b[0;37m"
-#define NC "\x1b[0m"
+// Defines
+#define ART_LINES 6
+#define ARTS_COUNT 5
+#define EYE_IDXS_COUNT 4
 
-const char **mkPac();
-const char **mkBalls();
+// Typdefs
+typedef const char *Art[ART_LINES];
+typedef const char *Colour;
 
-// Some macro trickery to have different compile-time ghost const char**
-#define mkGhost(PREFIX)                                                        \
-  (const char *[]) {                                                           \
-    PREFIX "   ▄██████▄   ",                                                   \
-        PREFIX " ▄" WHITE "█▀█" PREFIX "██" WHITE "█▀█" PREFIX "██▄ ",         \
-        PREFIX " █" WHITE "▄▄█" PREFIX "██" WHITE "▄▄█" PREFIX "███ ",         \
-        PREFIX " ████████████ ", PREFIX " ██▀██▀▀██▀██ ",                      \
-        PREFIX " ▀   ▀  ▀   ▀ "                                        \
-  }
+// Colours
+const Colour YELLOW = "\x1b[0;33m";
+const Colour RED = "\x1b[0;31m";
+const Colour BLUE = "\x1b[0;34m";
+const Colour PINK = "\x1b[0;35m";
+const Colour WHITE = "\x1b[0;37m";
+const Colour NC = "\x1b[0m";
 
+// Art decls
+const Art PAC;
+const Art BALLS;
+const Art GHOST;
+
+// Vars
+// clang-format off
+const Art *ARTS[ARTS_COUNT] = {&PAC, &BALLS, &GHOST, &GHOST, &GHOST}; // Art mapping
+const Colour COLOURS[ARTS_COUNT] = {YELLOW, WHITE, RED, BLUE, PINK}; // Colour mapping
+const size_t EYE_IDXS[EYE_IDXS_COUNT] = {4, 9, 6, 9};
+// col, white, col, white, col <=> separation in chars
+// clang-format on
+
+// Fn decls
+void printLn(const size_t ln);
+void printPart(const Colour col, char **part, const int inc);
+
+// @main
 int main(void) {
-  const char **pac = mkPac();
-  const char **balls = mkBalls();
-  const char **ghost0 = mkGhost(RED);
-  const char **ghost1 = mkGhost(CYAN);
-  const char **ghost2 = mkGhost(PINK);
-  // We use uchar since an int or size_t is unnessarely large
-  for (unsigned char i = 0; i < 6; ++i) {
-    // We use fputs to stdout buffer since it's faster
-    fputs(pac[i], stdout);
-    fputs(balls[i], stdout);
-    fputs(ghost0[i], stdout);
-    fputs(ghost1[i], stdout);
-    fputs(ghost2[i], stdout);
-    fputs("\n", stdout);
-    fputs(NC, stdout);
+  for (size_t line = 0; line < ART_LINES; ++line) {
+    printLn(line);
   }
-  fflush(stdout);
-  return 0;
 }
 
-const char **mkPac() {
-  static const char *out[] = {
-      // clang-format off
-      YELLOW "   ▄███████▄  ",
-      YELLOW " ▄█████████▀▀ ",
-      YELLOW " ███████▀     ",
-      YELLOW " ███████▄     ",
-      YELLOW " ▀█████████▄▄ ",
-      YELLOW "   ▀███████▀  ",
-      // clang-format on
-  };
-  return out;
+// Arts
+const Art PAC = {
+    // clang-format off
+    "   ▄███████▄  ",
+    " ▄█████████▀▀ ",
+    " ███████▀     ",
+    " ███████▄     ",
+    " ▀█████████▄▄ ",
+    "   ▀███████▀  ",
+    // clang-format on
+};
+const Art BALLS = {
+    // clang-format off
+    "            ",
+    "            ",
+    " ▄██▄  ▄██▄ ",
+    " ▀██▀  ▀██▀ ",
+    "            ",
+    "            ",
+    // clang-format on
+};
+const Art GHOST = {
+    // clang-format off
+    "   ▄██████▄   ",
+    " ▄█▀████▀███▄ ",
+    " █▄▄███▄▄████ ",
+    " ████████████ ",
+    " ██▀██▀▀██▀██ ",
+    " ▀   ▀  ▀   ▀ ",
+    // clang-format on
+};
+
+// Fns
+inline void printLn(const size_t ln) {
+  for (size_t art = 0; art < ARTS_COUNT; ++art) {
+    if ((ln == 1 || ln == 2) && (art == 2 || art == 3 || art == 4)) {
+      const Colour col = COLOURS[art];
+      Colour pcol = (Colour)col; // printable colour
+      char *part = (char *)(*ARTS[art])[ln];
+      for (int offsetIdx = 0; offsetIdx < EYE_IDXS_COUNT; ++offsetIdx) {
+        if (offsetIdx % 2 != 0) {
+          pcol = WHITE;
+        } else {
+          pcol = col;
+        }
+        printPart(pcol, &part, EYE_IDXS[offsetIdx]);
+      }
+      printf("%s%s", col, part);
+    } else {
+      printf("%s%s", COLOURS[art], (*ARTS[art])[ln]);
+    }
+  }
+  printf("%s\n", NC);
 }
 
-const char **mkBalls() {
-  static const char *out[] = {
-      // clang-format off
-      WHITE "            ",
-      WHITE "            ",
-      WHITE " ▄██▄  ▄██▄ ",
-      WHITE " ▀██▀  ▀██▀ ",
-      WHITE "            ",
-      WHITE "            ",
-      // clang-format on
-  };
-  return out;
+inline void printPart(const Colour col, char **part, const int inc) {
+  printf("%s%.*s", col, inc, *part);
+  *part += inc;
 }
