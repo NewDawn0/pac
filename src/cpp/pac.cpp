@@ -1,102 +1,97 @@
-#include <array>
+#include <cstddef>
 #include <iostream>
-#include <string>
-#include <vector>
 
-typedef unsigned char uchar;
+// Define the size of the Art arrays
+#define ART_SIZE 6
+#define ARTS_SIZE 5
 
+// Art typedef & consts
+using namespace std;
+
+// Colours
 constexpr const char *YELLOW = "\x1b[0;33m";
 constexpr const char *RED = "\x1b[0;31m";
-constexpr const char *CYAN = "\x1b[0;36m";
+constexpr const char *BLUE = "\x1b[0;34m";
 constexpr const char *PINK = "\x1b[0;35m";
 constexpr const char *WHITE = "\x1b[0;37m";
 constexpr const char *NC = "\x1b[0m";
 
-class Art {
-public:
-  const std::string col;
-  std::array<std::string, 6> art;
-  Art(const std::string col, const std::array<std::string, 6> &art);
-  std::array<std::string, 6> getArt() const;
-};
-
-class Ghost : public Art {
-private:
-  inline void repl(std::string &str, const std::string &x,
-                   const std::string &xs) const;
-  inline void setFmt();
+// Classes
+class BaseArt {
+protected:
+  const char **art;
+  const char *col;
 
 public:
-  Ghost(const std::string col, const std::array<std::string, 6> &art);
+  constexpr BaseArt(const char *art[ART_SIZE], const char *col)
+      : art(art), col(col){};
+  virtual constexpr string getLn(const size_t ln) const;
 };
 
-const void cleanUp();
-std::string buildArt(std::vector<Art *> arts);
+class GhostArt : public BaseArt {
+  const size_t eyeIdxs[4] = {4, 20, 33, 49};
+  bool isEye(const size_t &ln) const;
+
+public:
+  constexpr GhostArt(const char *art[ART_SIZE], const char *col)
+      : BaseArt(art, col){};
+  constexpr string getLn(const size_t ln) const;
+};
 
 // Arts
-Art *PAC = // clang-format off
-  new Art(YELLOW, {
-    "   ▄███████▄  ",
-    " ▄█████████▀▀ ",
-    " ███████▀     ",
-    " ███████▄     ",
-    " ▀█████████▄▄ ",
-    "   ▀███████▀  ",
-  }
-);
-// clang-format on
-Art *BALLS = // clang-format off
-  new Art(WHITE, {
-    "            ",
-    "            ",
-    " ▄██▄  ▄██▄ ",
-    " ▀██▀  ▀██▀ ",
-    "            ",
-    "            ",
-  }
-);
+// clang-format off
+constexpr const char *PAC_ART[ART_SIZE] = {
+  "   ▄███████▄  ",
+  " ▄█████████▀▀ ",
+  " ███████▀     ",
+  " ███████▄     ",
+  " ▀█████████▄▄ ",
+  "   ▀███████▀  "
+
+};
+constexpr const char *BALLS_ART[ART_SIZE] = {
+  "            ",
+  "            ",
+  " ▄██▄  ▄██▄ ",
+  " ▀██▀  ▀██▀ ",
+  "            ",
+  "            "
+};
+constexpr const char *GHOST_ART[ART_SIZE] = {
+  "   ▄██████▄   ",
+  " ▄█▀████▀███▄ ",
+  " █▄▄███▄▄████ ",
+  " ████████████ ",
+  " ██▀██▀▀██▀██ ",
+  " ▀   ▀  ▀   ▀ "
+};
 // clang-format on
 
-const std::array<std::string, 6> GHOST_ART = {
-    // clang-format off
-        // C Is for the Art Eye color
-        // R Is for reset to the color
-        "   ▄██████▄   ",
-        " ▄C█▀█R██C█▀█R██▄ ",
-        " █C▄▄█R██C▄▄█R███ ",
-        " ████████████ ",
-        " ██▀██▀▀██▀██ ",
-        " ▀   ▀  ▀   ▀ "
-    // clang-format on
-};
-Ghost *GHOST0 = new Ghost(RED, GHOST_ART);
-Ghost *GHOST1 = new Ghost(CYAN, GHOST_ART);
-Ghost *GHOST2 = new Ghost(PINK, GHOST_ART);
+// Instances
+constexpr BaseArt PAC = BaseArt((const char **)PAC_ART, YELLOW);
+constexpr BaseArt BALLS = BaseArt((const char **)BALLS_ART, WHITE);
+constexpr GhostArt GHOST0 = GhostArt((const char **)GHOST_ART, RED);
+constexpr GhostArt GHOST1 = GhostArt((const char **)GHOST_ART, BLUE);
+constexpr GhostArt GHOST2 = GhostArt((const char **)GHOST_ART, PINK);
+
+// clang-format off
+constexpr const BaseArt *ARTS[ARTS_SIZE] = {&PAC, &BALLS, &GHOST0, &GHOST1, &GHOST2};
+// clang-format on
+
+// Fn decls
+constexpr string mkArt();
 
 int main(void) {
-  std::cout << buildArt({PAC, BALLS, GHOST0, GHOST1, GHOST2});
-  cleanUp();
+  cout << mkArt();
   return 0;
 }
 
-const void cleanUp() {
-  delete PAC;
-  delete BALLS;
-  delete GHOST0;
-  delete GHOST1;
-  delete GHOST2;
-}
-
-std::string buildArt(std::vector<Art *> arts) {
-  std::string out;
-  out = "";
-  std::vector<std::array<std::string, 6>> artStrs;
-  for (const auto &art : arts) {
-    artStrs.push_back(art->getArt());
-  }
-  for (uchar i = 0; i < 6; ++i) {
-    for (const auto &artStr : artStrs) {
-      out += artStr[i];
+// Fn impls
+inline constexpr string mkArt() {
+  string out;
+  for (size_t ln = 0; ln < ART_SIZE; ++ln) {
+    for (size_t a = 0; a < ARTS_SIZE; ++a) {
+      out += ARTS[a]->getLn(ln);
     }
     out += NC;
     out += "\n";
@@ -104,33 +99,28 @@ std::string buildArt(std::vector<Art *> arts) {
   return out;
 }
 
-// Art impl
-Art::Art(const std::string col, const std::array<std::string, 6> &art)
-    : col(col), art(art){};
-std::array<std::string, 6> Art::getArt() const {
-  std::array<std::string, 6> modArt = art;
-  for (auto &ln : modArt) {
-    ln = col + ln;
-  }
-  return modArt;
-}
+// Class impl
+constexpr string BaseArt::getLn(const size_t ln) const {
+  string out;
+  out += col;
+  out += art[ln];
+  return out;
+};
 
-// Ghost impl
-Ghost::Ghost(const std::string col, const std::array<std::string, 6> &art)
-    : Art(col, art) {
-  setFmt();
+bool GhostArt::isEye(const size_t &ln) const {
+  if (ln == 1 || ln == 2)
+    return true;
+  return false;
 }
-inline void Ghost::repl(std::string &str, const std::string &x,
-                        const std::string &xs) const {
-  size_t pos = 0;
-  while ((pos = str.find(x, pos)) != std::string::npos) {
-    str.replace(pos, 1, xs);
-    pos += 2;
+constexpr string GhostArt::getLn(const size_t ln) const {
+  string out, artStr;
+  artStr += art[ln];
+  if (isEye(ln)) {
+    artStr.insert(4, WHITE);
+    artStr.insert(20, col);
+    artStr.insert(33, WHITE);
+    artStr.insert(49, col);
   }
-}
-inline void Ghost::setFmt() {
-  for (uchar i = 1; i < 3; i++) {
-    repl(art[i], "C", WHITE);
-    repl(art[i], "R", col);
-  }
-}
+  out += col + artStr;
+  return out;
+};

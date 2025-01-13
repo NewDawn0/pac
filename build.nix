@@ -4,9 +4,10 @@ let
     inherit (buildAttrs) installPhase name src version;
     buildPhase = "cc ${flags.cflags} ./src/c/pac.c";
   };
-  cpp = pkgs.gccStdenv.mkDerivation {
+  cpp = pkgs.stdenv.mkDerivation {
     inherit (buildAttrs) installPhase name src version;
-    buildPhase = "cc ${flags.cflags} ./src/c/pac.c";
+    buildInputs = with pkgs; [ libcxx ];
+    buildPhase = "clang++ ${flags.cxxflags} ./src/cpp/pac.cpp";
   };
   rust = pkgs.stdenv.mkDerivation {
     inherit (buildAttrs) installPhase name src version;

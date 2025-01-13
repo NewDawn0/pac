@@ -9,7 +9,7 @@
 
       flags = {
         cflags = "-O3 -Ofast -o pac";
-        cxxflags = flags.cflags;
+        cxxflags = "-O3 -Ofast -o pac -std=c++20";
         rustflags = "-C opt-level=3 -o pac";
         zigflags =
           "-OReleaseFast -fstrip -femit-bin=pac --global-cache-dir $cacheDir";
