@@ -4,6 +4,13 @@
 
 Fast pac man art in the terminal
 
+<details>
+<summary>Performance</summary>
+
+![performance](./.github/perf.png)
+
+</details>
+
 <!-- vim-markdown-toc GFM -->
 
 * [Description](#description)
