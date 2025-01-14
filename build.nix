@@ -36,9 +36,16 @@ let
       zig build-exe ${flags.zigflags} ./src/zig/pac.zig
     '';
   };
+  fortran = pkgs.stdenv.mkDerivation {
+    inherit (buildAttrs) installPhase name src version;
+    buildInputs = [ pkgs.gfortran ];
+    buildPhase = ''
+      gfortran ${flags.fortranflags} ./src/fortran/pac.f90
+    '';
+  };
 in {
   default = zig; # Default must be cross platform
-  all = { inherit c cpp rust rust2 zig; };
+  all = { inherit c cpp rust rust2 zig fortran; };
   mac = { inherit asm; };
   linux = { };
 }

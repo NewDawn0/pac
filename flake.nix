@@ -14,6 +14,7 @@
         zigflags =
           "-OReleaseFast -fstrip -femit-bin=pac --global-cache-dir $cacheDir";
         ldflags = "-static -o pac pac.o";
+        fortranflags = "-O3 -Ofast -fbackslash -o pac";
       };
       patches = pkgs: {
         zig = pkgs.lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
