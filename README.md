@@ -55,7 +55,7 @@ Or to build a specific version, run the command:
 nix build .#<version>
 ```
 
-To view all available versions/implementations for your system run the following:
+To view all available versions/implementations, run the following:
 
 ```bash
 nix flake show
@@ -80,16 +80,16 @@ Feel free to upload your own version of the Pac-Man script in any language, and 
 ### Constraints
 
 - The version must be in a single file and must compile to the pac executable
-- The version must support at least macOS or Linux
+- The version must support both macOS and Linux
 - All the figures objects (eg. Pac-Man, Ghosts, ...) must be stored separately and cannot be initially stored with colour formatting
+- You cannot use any libraries or frameworks
 
 ### Adding your version
 
 1. Fork the repo
 2. Add your implementation in a new language or improve an existing one
-3. Add your source in `./src/<your-language>/pac-<your-impl>` where the file must be just called `pac` if there isn't a preexisting file with that name
-4. Add your build derivation to `./build.nix`
-5. Add your derivation to any of `all`, `mac`, `linux` in `./build.nix` depending whether it builds for both macOS and linux or just one system
-6. Create a PR
+3. Add your source in `./src/<language-extension>/pac-<your-impl>` where the file must be just called `pac` if there isn't a preexisting file with that name
+4. Add your build to the `./flake.nix` and don't forget to add it to the overlays as well as inherit the output;
+5. Create a PR
 
 I welcome contributions and look forward to seeing how fast you can make your version!
