@@ -1,0 +1,36 @@
+--- src/asm/pac.asm	2025-03-13 14:43:42
++++ pac.asm	2025-03-13 14:45:06
+@@ -1,5 +1,5 @@
+ section .text
+-global  _main
++global  _start
+ 
+ default rel
+ 
+@@ -7,7 +7,7 @@
+ 	; Input: rdi, rsi, rdx, rcx, r8, r9
+ 	; Output: rax
+ 
+-_main:
++_start:
+   ; Loop over all 6 lines
+ 	mov  rdi, 6
+ 	call forLoop
+@@ -37,7 +37,7 @@
+ 	ret
+ 
+ exit:
+-	mov rax, 0x02000001
++	mov rax, 60
+ 	xor rdi, rdi
+ 	syscall
+ 	ret
+@@ -46,7 +46,7 @@
+ 	;   Print
+ 	mov r8, rdi
+ 	mov r9, rsi
+-	mov rax, 0x02000004
++	mov rax, 1
+ 	mov rdi, 1
+ 	mov rsi, r8
+ 	mov rdx, r9
