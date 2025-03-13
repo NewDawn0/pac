@@ -1,19 +1,20 @@
 section .text
-global  start
+global  _main
 
 default rel
-
-	; NOTE: When building for linux
-	; -> Change ASMFLAGS to -felf64 in Makefile
-	; -> Replace 0x02000001 and 0x02000001 with 1 and 4
 
 	; x86-64 Calling conv
 	; Input: rdi, rsi, rdx, rcx, r8, r9
 	; Output: rax
 
-start:
+_main:
+  ; Loop over all 6 lines
 	mov  rdi, 6
 	call forLoop
+  ; Reset term col
+	lea  rdi, [cols.nc]
+  call printCol
+  ; Exit
 	call exit
 
 forLoop:
