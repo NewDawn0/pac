@@ -3,7 +3,7 @@
 macro_rules! col {
     (yellow) => { "\x1b[0;33m" };
     (red)    => { "\x1b[0;31m" };
-    (cyan)   => { "\x1b[0;36m" };
+    (blue)   => { "\x1b[0;34m" };
     (pink)   => { "\x1b[0;35m" };
     (white)  => { "\x1b[0;37m" };
     (nc)     => { "\x1b[0m" };
@@ -67,6 +67,6 @@ const ART: &'static str = art!(
     (pac, yellow),
     (balls, white),
     (ghost, red),
-    (ghost, cyan),
+    (ghost, blue),
     (ghost, pink)
 );

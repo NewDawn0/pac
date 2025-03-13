@@ -3,7 +3,7 @@ fn main() {
         ArtType::Art(Art::new(COLS.yellow, PAC_ART)),
         ArtType::Art(Art::new(COLS.white, BALLS_ART)),
         ArtType::Ghost(Ghost::new(COLS.red, GHOST_ART)),
-        ArtType::Ghost(Ghost::new(COLS.cyan, GHOST_ART)),
+        ArtType::Ghost(Ghost::new(COLS.blue, GHOST_ART)),
         ArtType::Ghost(Ghost::new(COLS.pink, GHOST_ART)),
     ];
     print!("{}", build_str(&arts));
@@ -83,7 +83,7 @@ impl Artifyable for Ghost {
 struct Cols {
     yellow: &'static str,
     red: &'static str,
-    cyan: &'static str,
+    blue: &'static str,
     pink: &'static str,
     white: &'static str,
     nc: &'static str,
@@ -93,7 +93,7 @@ impl Cols {
         Self {
             yellow: "\x1b[0;33m",
             red: "\x1b[0;31m",
-            cyan: "\x1b[0;36m",
+            blue: "\x1b[0;34m",
             pink: "\x1b[0;35m",
             white: "\x1b[0;37m",
             nc: "\x1b[0m",
