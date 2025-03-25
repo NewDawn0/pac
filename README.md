@@ -1,11 +1,13 @@
+# 🏎️ **Pac** – Gotta Go Fast!
+
 ![pac](./.github/pac.png)
 
-# Pac
+### **What’s this?**
 
-Fast pac man art in the terminal
+Pac is an ultra-fast **ASCII art Pac-Man renderer**, pitting compiled languages against each other in a **brutal speed showdown**. Ever wondered how slow your favorite language is? Don’t worry, we won’t judge... much. 😏
 
 <details>
-<summary>Performance</summary>
+<summary>⏳ **Performance?** Let's just say, some languages age like fine wine... others age like milk.</summary>
 
 ![performance](./.github/perf.png)
 
@@ -13,83 +15,110 @@ Fast pac man art in the terminal
 
 <!-- vim-markdown-toc GFM -->
 
-* [Description](#description)
-* [Features](#features)
-* [Building a version](#building-a-version)
-* [Measuring Performance](#measuring-performance)
-* [Contributing](#contributing)
-    * [Constraints](#constraints)
-    * [Adding your version](#adding-your-version)
+* [🕹️ **Description**](#-description)
+* [✨ **Features**](#-features)
+* [⚙️ **Building a Version**](#-building-a-version)
+* [🚀 **Testing & Profiling**](#-testing--profiling)
+    * [📊 **Measuring Performance**](#-measuring-performance)
+    * [🔨 **Checking All Builds**](#-checking-all-builds)
+* [🤝 **Contributing**](#-contributing)
+    * [📌 **Constraints**](#-constraints)
+    * [📢 **Adding Your Version**](#-adding-your-version)
 
 <!-- vim-markdown-toc -->
 
-## Description
+## 🕹️ **Description**
 
-This project generates an ASCII art representation of Pac-Man using different programming languages and compares their performance. The output includes coloured Pac-Man ASCII art and utilizes Unicode characters for the visual effects. You can build and run different versions of the program written in C, C++, Zig, Rust, and Assembly. Additionally, the program allows you to measure the performance of each version by running 1000 iterations and reporting the elapsed time.
+This project **renders an ASCII Pac-Man** using various programming languages and **races them against each other**. Who will emerge victorious?
 
-## Features
+- **Assembly flexing its muscles?** 💪
+- **Rust with its zero-cost abstractions?** 🦀
+- **C & C++ clinging to their glory days?** 🤠
+- **Zig casually outperforming them all?** ⚡
+- **Fortran making a surprise comeback? 📈📊**
+- **Python? Oh… wait, we left it out for a reason.** 🐌
+- **And many more ...**
 
-- ASCII art representation of Pac-Man
-- Colours and Unicode characters used to enhance the visual output
-- Multiple versions/implementations in different languages
-- Measures performance across languages and implementations
+Each version runs **1000 iterations**, measuring how much CPU pain it inflicts. Let the battle begin! 🔥
 
-## Building a version
+## ✨ **Features**
 
-To get started, clone the repository and navigate to the project director:
+✔️ **ASCII Pac-Man**, because why not?
+✔️ **Beautiful colored Unicode output** (we fancy)
+✔️ **Multiple implementations** (Assembly, C, C++, Rust, Zig, etc.)
+✔️ **Performance benchmarking** – find out which language reigns supreme
+✔️ **100% fun, 0% JavaScript** 😈
+
+## ⚙️ **Building a Version**
+
+First, clone the repo and navigate to the directory:
 
 ```bash
 git clone https://github.com/NewDawn0/pac.git
 cd pac
 ```
 
-And then build the default version using the following command:
+Then, build the default version:
 
 ```bash
 nix build .
 ```
 
-Or to build a specific version, run the command:
+To build a specific version (because you have _taste_):
 
 ```bash
 nix build .#<version>
 ```
 
-To view all available versions/implementations, run the following:
+To check all available implementations:
 
 ```bash
 nix flake show
 ```
 
-nix build
+## 🚀 **Testing & Profiling**
 
-## Measuring Performance
-
-To get the performance of an implementation, build it and then run the follwing
+Enter the **devshell** (grants access to testing tools):
 
 ```bash
-./measure.sh measure
+nix develop
 ```
 
-This will run the version for 1000 iterations and show the elapsed time
+### 📊 **Measuring Performance**
 
-## Contributing
+To see how fast (or slow) an implementation is, run:
 
-Feel free to upload your own version of the Pac-Man script in any language, and make it as fast as possible! To contribute, follow these steps:
+```bash
+measure
+```
 
-### Constraints
+This **executes the last built version for 1000 iterations** and spits out the elapsed time. If your language takes longer than a coffee break... well, you know what to do. ☕🚀
 
-- The version must be in a single file and must compile to the pac executable
-- The version must support both macOS and Linux
-- All the figures objects (eg. Pac-Man, Ghosts, ...) must be stored separately and cannot be initially stored with colour formatting
-- You cannot use any libraries or frameworks
+### 🔨 **Checking All Builds**
 
-### Adding your version
+To verify that all versions at least **compile** (no participation trophies here):
 
-1. Fork the repo
-2. Add your implementation in a new language or improve an existing one
-3. Add your source in `./src/<language-extension>/pac-<your-impl>` where the file must be just called `pac` if there isn't a preexisting file with that name
-4. Add your build to the `./flake.nix` and don't forget to add it to the overlays as well as inherit the output;
-5. Create a PR
+```bash
+build-all
+```
 
-I welcome contributions and look forward to seeing how fast you can make your version!
+## 🤝 **Contributing**
+
+Think your favorite language can beat the competition? Prove it. **Submit your own implementation** and watch it rise (or crash and burn).
+
+### 📌 **Constraints**
+
+- The implementation **must compile** to a `pac` executable.
+- Must work on **Linux and macOS**.
+- **Pac-Man & Ghosts** must be **stored separately**, no color formatting baked in.
+- **No external libraries or frameworks** – raw power only.
+
+### 📢 **Adding Your Version**
+
+1. **Fork the repo**
+2. Write your **speed demon** of an implementation
+3. Place it in `./src/<language-extension>/pac-<your-impl>`
+4. Update `./build.nix` and **make sure it builds**
+5. **Submit a PR**
+
+🚀 **I dare you to make it faster.** **The real question is: are you brave enough?** 😏
