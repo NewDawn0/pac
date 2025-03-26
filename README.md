@@ -7,7 +7,7 @@
 Pac is an ultra-fast **ASCII art Pac-Man renderer**, pitting compiled languages against each other in a **brutal speed showdown**. Ever wondered how slow your favorite language is? Don’t worry, we won’t judge... much. 😏
 
 <details>
-<summary>⏳ **Performance?** Let's just say, some languages age like fine wine... others age like milk.</summary>
+<summary>⏳ <b>Performance?</b> Let's just say, some languages age like fine wine... others age like milk.</summary>
 
 ![performance](./.github/perf.png)
 
@@ -43,11 +43,11 @@ Each version runs **1000 iterations**, measuring how much CPU pain it inflicts. 
 
 ## ✨ **Features**
 
-✔️ **ASCII Pac-Man**, because why not?
-✔️ **Beautiful colored Unicode output** (we fancy)
-✔️ **Multiple implementations** (Assembly, C, C++, Rust, Zig, etc.)
-✔️ **Performance benchmarking** – find out which language reigns supreme
-✔️ **100% fun, 0% JavaScript** 😈
+- ✔️ **ASCII Pac-Man**, because why not?
+- ✔️ **Beautiful colored Unicode output** (we fancy)
+- ✔️ **Multiple implementations** (Assembly, C, C++, Rust, Zig, etc.)
+- ✔️ **Performance benchmarking** – find out which language reigns supreme
+- ✔️ **100% fun, 0% JavaScript** 😈
 
 ## ⚙️ **Building a Version**
 
