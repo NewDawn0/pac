@@ -1,11 +1,16 @@
+; Syscall variables (macOS)
+sys_exit    equ 0x02000001
+sys_write   equ 0x02000004
+
+; Executable section
 section .text
 global  _main
 
 default rel
 
-	; x86-64 Calling conv
-	; Input: rdi, rsi, rdx, rcx, r8, r9
-	; Output: rax
+; x86-64 Calling conv
+; Input: rdi, rsi, rdx, rcx, r8, r9
+; Output: rax
 
 _main:
   ; Loop over all 6 lines
@@ -37,7 +42,7 @@ forLoop:
 	ret
 
 exit:
-	mov rax, 0x02000001
+	mov rax, sys_exit
 	xor rdi, rdi
 	syscall
 	ret
@@ -46,7 +51,7 @@ print:
 	;   Print
 	mov r8, rdi
 	mov r9, rsi
-	mov rax, 0x02000004
+	mov rax, sys_write
 	mov rdi, 1
 	mov rsi, r8
 	mov rdx, r9

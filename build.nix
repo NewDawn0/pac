@@ -28,7 +28,7 @@ in {
   pac-asm = let
     linuxPatch = with pkgs;
       lib.optionalString stdenv.hostPlatform.isLinux ''
-        patch ./src/asm/pac.asm < ./patches/asm/pac.patch
+        patch ./src/asm/pac.asm < ./patches/asm/pac-linux.patch
       '';
     darwinBuild = with pkgs;
       lib.optionalString stdenv.hostPlatform.isDarwin ''
