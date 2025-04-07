@@ -27,16 +27,16 @@ in {
   #
   pac-asm = let
     linuxPatch = with pkgs;
-      lib.optionalString stdenv.hostPlatform.isLinux ''
+      lib.optionalString stdenv.isLinux ''
         patch ./src/asm/pac.asm < ./patches/asm/pac-linux.patch
       '';
     darwinBuild = with pkgs;
-      lib.optionalString stdenv.hostPlatform.isDarwin ''
+      lib.optionalString stdenv.isDarwin ''
         nasm -fmacho64 -o pac.o ./src/asm/pac.asm
         ld -lSystem -L$(xcrun --show-sdk-path)/usr/lib -o pac pac.o
       '';
     linuxBuild = with pkgs;
-      lib.optionalString stdenv.hostPlatform.isLinux ''
+      lib.optionalString stdenv.isLinux ''
         nasm -felf64 -o pac.o ./src/asm/pac.asm
         ld -o pac pac.o
       '';
@@ -91,7 +91,7 @@ in {
   pac-zig = let
     # On Darwin the executable needs to link to libSystem
     darwinBuildPatch = with pkgs;
-      lib.optionalString stdenv.hostPlatform.isDarwin ''
+      lib.optionalString stdenv.isDarwin ''
         export LIBRARY_PATH="$(xcrun --show-sdk-path)/usr/lib"
         export DYLD_LIBRARY_PATH="$(xcrun --show-sdk-path)/usr/lib"
       '';
