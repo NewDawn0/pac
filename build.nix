@@ -52,7 +52,7 @@ in {
     name = "pac-c";
     version = "1.0.0";
     meta = mkMeta { };
-    buildPhase = "cc -O3 -Ofast -o pac ./src/c/pac.c";
+    buildPhase = "cc -O3 -ffast-math -o pac ./src/c/pac.c";
   };
   pac-cpp = pkgs.stdenv.mkDerivation {
     inherit installPhase pname src;
@@ -60,7 +60,7 @@ in {
     version = "1.0.1";
     meta = mkMeta { };
     buildInputs = [ pkgs.libcxx ];
-    buildPhase = "clang++ -std=c++20 -O3 -Ofast -o pac ./src/cpp/pac.cpp";
+    buildPhase = "clang++ -std=c++20 -O3 -ffast-math -o pac ./src/cpp/pac.cpp";
   };
   pac-f90 = pkgs.stdenvNoCC.mkDerivation {
     inherit installPhase pname src;
