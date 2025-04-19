@@ -33,12 +33,10 @@ in {
     darwinBuild = with pkgs;
       lib.optionalString stdenv.isDarwin ''
         nasm -fmacho64 -o pac.o ./src/asm/pac.asm
-        ld -lSystem -L$(xcrun --show-sdk-path)/usr/lib -o pac pac.o
       '';
     linuxBuild = with pkgs;
       lib.optionalString stdenv.isLinux ''
         nasm -felf64 -o pac.o ./src/asm/pac.asm
-        ld -o pac pac.o
       '';
   in pkgs.stdenv.mkDerivation {
     inherit installPhase pname src;
@@ -47,7 +45,7 @@ in {
     meta = mkMeta { };
     patchPhase = linuxPatch;
     buildInputs = [ pkgs.nasm ];
-    buildPhase = darwinBuild + linuxBuild;
+    buildPhase = darwinBuild + linuxBuild + "cc -opac pac.o";
   };
   pac-c = pkgs.stdenv.mkDerivation {
     inherit installPhase pname src;
