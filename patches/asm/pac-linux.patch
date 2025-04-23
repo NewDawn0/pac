@@ -1,6 +1,6 @@
---- src/asm/pac.asm	2025-04-19 20:57:37
-+++ pac.asm	2025-04-19 20:59:19
-@@ -1,6 +1,6 @@
+--- src/asm/pac.asm	2025-04-20 21:38:09
++++ pac.asm	2025-04-23 20:27:31
+@@ -1,10 +1,10 @@
  	; Syscall variables (macOS)
 -	sys_exit    equ 0x02000001
 -	sys_write   equ 0x02000004
@@ -9,3 +9,17 @@
  
  	;       Executable section
  	section .text
+-	global  _main
++	global  _start
+ 	default rel
+ 
+ 	; x86-64 Calling conv
+@@ -222,7 +222,7 @@
+ 	; == Functions ==
+ 	; Main entry point
+ 
+-_main:
++_start:
+ 	;    Create stack frame
+ 	push rbp
+ 	mov  rbp, qword rsp

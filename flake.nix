@@ -5,7 +5,7 @@
 
   outputs = { utils, ... }:
     let
-      defaultPackage = "pac-zig";
+      defaultPackage = "pac-asm";
       getBuild = pkgs: import ./build.nix { inherit pkgs; };
       mkOutPackages = pkgs: default:
         let
